@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
-
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme{
     --font-roboto: 'Roboto', sans-serif;
@@ -18,4 +18,11 @@
     --color-text-gray: #64748B;
 }
 
+/* Smooth theme transition on the root */
+html {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
 
+body {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}

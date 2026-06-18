@@ -2,16 +2,9 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 
 /**
- * @typedef {Object} AddLeadModalProps
- * @property {boolean} isOpen - Whether the modal is open
- * @property {function} onClose - Function to close the modal
- * @property {function} onAdd - Function to add the new lead
- */
-
-/**
  * A modal component for adding a new lead.
  *
- * @param {AddLeadModalProps} props - Component props
+ * @param {{ isOpen: boolean, onClose: function, onAdd: function }} props - Component props
  * @returns {JSX.Element|null} The modal or null if not open
  */
 const AddLeadModal = ({ isOpen, onClose, onAdd }) => {
@@ -19,7 +12,7 @@ const AddLeadModal = ({ isOpen, onClose, onAdd }) => {
     name: '',
     email: '',
     company: '',
-    value: '', // New value/amount field
+    value: '',
     status: 'New',
   });
 
@@ -34,31 +27,29 @@ const AddLeadModal = ({ isOpen, onClose, onAdd }) => {
     e.preventDefault();
     if (!formData.name || !formData.company || !formData.email) return;
 
-    // Create new lead object with clean fields, letting the context handle ID and timestamps
     const newLeadData = {
       name: formData.name,
       email: formData.email,
       company: formData.company,
-      value: Number(formData.value) || 0, // ensure value is a number
+      value: Number(formData.value) || 0,
       status: formData.status,
-      source: 'Other', // default source for quick dashboard add
-      phone: '' // default empty phone
+      source: 'Other',
+      phone: ''
     };
 
     onAdd(newLeadData);
-    setFormData({ name: '', email: '', company: '', value: '', status: 'New' }); // reset form
+    setFormData({ name: '', email: '', company: '', value: '', status: 'New' });
     onClose();
   };
 
   return (
-    // Replaced bg-black bg-opacity-50 with bg-white/40 backdrop-blur-md so it's not dark
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/40 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden">
-        <div className="flex justify-between items-center p-6 border-b border-slate-200 bg-slate-50">
-          <h2 className="text-xl font-semibold text-slate-800">Add New Lead</h2>
+    <div className="fixed inset-0 z-50 flex md:items-center justify-center bg-white/40 dark:bg-gray-900/60 backdrop-blur-sm md:p-4">
+      <div className="bg-white dark:bg-gray-800 md:rounded-xl shadow-2xl border-0 md:border border-slate-200 dark:border-gray-700 w-full h-full md:h-auto max-w-none md:max-w-lg overflow-y-auto transition-colors duration-200 flex flex-col">
+        <div className="flex justify-between items-center p-6 border-b border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-800 shrink-0">
+          <h2 className="text-xl font-semibold text-slate-800 dark:text-white">Add New Lead</h2>
           <button 
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 transition-colors"
+            className="text-slate-400 hover:text-slate-600 dark:hover:text-gray-200 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -66,7 +57,7 @@ const AddLeadModal = ({ isOpen, onClose, onAdd }) => {
         
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="name">
+            <label className="block text-sm font-medium text-slate-700 dark:text-gray-300 mb-1" htmlFor="name">
               Full Name
             </label>
             <input 
@@ -76,13 +67,13 @@ const AddLeadModal = ({ isOpen, onClose, onAdd }) => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-slate-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-400 transition-colors"
               placeholder="e.g. Jane Doe"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="email">
+            <label className="block text-sm font-medium text-slate-700 dark:text-gray-300 mb-1" htmlFor="email">
               Email Address
             </label>
             <input 
@@ -92,14 +83,14 @@ const AddLeadModal = ({ isOpen, onClose, onAdd }) => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-slate-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-400 transition-colors"
               placeholder="e.g. jane@example.com"
             />
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="company">
+              <label className="block text-sm font-medium text-slate-700 dark:text-gray-300 mb-1" htmlFor="company">
                 Company
               </label>
               <input 
@@ -109,13 +100,13 @@ const AddLeadModal = ({ isOpen, onClose, onAdd }) => {
                 value={formData.company}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-400 transition-colors"
                 placeholder="e.g. Acme Corp"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="value">
+              <label className="block text-sm font-medium text-slate-700 dark:text-gray-300 mb-1" htmlFor="value">
                 Deal Value ($)
               </label>
               <input 
@@ -125,14 +116,14 @@ const AddLeadModal = ({ isOpen, onClose, onAdd }) => {
                 value={formData.value}
                 onChange={handleChange}
                 min="0"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-gray-400 transition-colors"
                 placeholder="e.g. 5000"
               />
             </div>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="status">
+            <label className="block text-sm font-medium text-slate-700 dark:text-gray-300 mb-1" htmlFor="status">
               Status
             </label>
             <select 
@@ -140,7 +131,7 @@ const AddLeadModal = ({ isOpen, onClose, onAdd }) => {
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+              className="w-full px-3 py-2 border border-slate-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-slate-800 dark:text-white transition-colors"
             >
               <option value="New">New</option>
               <option value="Contacted">Contacted</option>
@@ -155,7 +146,7 @@ const AddLeadModal = ({ isOpen, onClose, onAdd }) => {
             <button 
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-medium"
+              className="flex-1 px-4 py-2 border border-slate-300 dark:border-gray-600 text-slate-700 dark:text-gray-300 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-700 transition-colors font-medium"
             >
               Cancel
             </button>

@@ -1,5 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
+import sampleLeads from '../data/sampleLeads';
 
 /**
  * TypeScript-style definition of a Lead object.
@@ -17,110 +19,24 @@ import { createContext, useContext, useState, useEffect } from 'react';
  * @property {number} [value] - Optional estimated deal value.
  */
 
-// Initial mock data to seed the application if localStorage is empty
-const defaultLeads = [
-  {
-    id: '1',
-    name: 'Alice Freeman',
-    company: 'TechNova',
-    email: 'alice@technova.com',
-    phone: '(555) 123-4567',
-    status: 'New',
-    source: 'Website',
-    createdAt: '2026-06-16T09:00:00Z',
-    dateAdded: '2026-06-16T09:00:00Z',
-    value: 15000,
-  },
-  {
-    id: '2',
-    name: 'Bob Smith',
-    company: 'BuildRight Inc.',
-    email: 'bob@buildright.inc',
-    phone: '(555) 987-6543',
-    status: 'Contacted',
-    source: 'Referral',
-    createdAt: '2026-06-15T14:30:00Z',
-    dateAdded: '2026-06-15T14:30:00Z',
-    value: 45000,
-  },
-  {
-    id: '3',
-    name: 'Charlie Davis',
-    company: 'NextGen Solutions',
-    email: 'charlie@nextgen.co',
-    phone: '',
-    status: 'Meeting Scheduled',
-    source: 'LinkedIn',
-    createdAt: '2026-06-14T10:15:00Z',
-    dateAdded: '2026-06-14T10:15:00Z',
-    value: 120000,
-  },
-  {
-    id: '4',
-    name: 'Diana Prince',
-    company: 'Themyscira Corp',
-    email: 'diana@themyscira.corp',
-    phone: '(555) 300-1941',
-    status: 'Won',
-    source: 'Referral',
-    createdAt: '2026-06-13T16:45:00Z',
-    dateAdded: '2026-06-13T16:45:00Z',
-    value: 85000,
-  },
-  {
-    id: '5',
-    name: 'Evan Wright',
-    company: 'Wright & Co.',
-    email: 'evan@wright.co',
-    phone: '(555) 111-2222',
-    status: 'Lost',
-    source: 'Cold Call',
-    createdAt: '2026-06-12T11:20:00Z',
-    dateAdded: '2026-06-12T11:20:00Z',
-    value: 12000,
-  },
-  {
-    id: '6',
-    name: 'Fiona Gallagher',
-    company: 'Shameless Inc.',
-    email: 'fiona@shameless.inc',
-    phone: '(555) 999-8888',
-    status: 'New',
-    source: 'Email Campaign',
-    createdAt: '2026-06-11T08:00:00Z',
-    dateAdded: '2026-06-11T08:00:00Z',
-    value: 25000,
-  }
-];
-
 export const LeadContext = createContext(null);
 
 /**
  * LeadProvider component wraps the React app and exposes leads data and state modifiers.
+ * Leads are persisted to localStorage under the key 'startup-crm-leads' so they
+ * survive page refreshes and browser restarts. On first visit, sampleLeads is
+ * used as the seed data.
  * 
  * @param {Object} props - The component props.
  * @param {React.ReactNode} props.children - Child components to be wrapped.
  * @returns {JSX.Element} The rendered Provider wrapper.
  */
 export const LeadProvider = ({ children }) => {
-  const [leads, setLeads] = useState(() => {
-    try {
-      const stored = localStorage.getItem('leads');
-      return stored ? JSON.parse(stored) : defaultLeads;
-    } catch (error) {
-      console.error('Failed to parse leads from localStorage:', error);
-      return defaultLeads;
-    }
-  });
-
-  // Sync leads list to localStorage whenever it changes
-  useEffect(() => {
-    try {
-      localStorage.setItem('leads', JSON.stringify(leads));
-    } catch (error) {
-      console.error('Failed to save leads to localStorage:', error);
-    }
-  }, [leads]);
+  // useLocalStorage mirrors the useState API exactly:
+  //   - On first render: reads 'startup-crm-leads' from localStorage.
+  //   - If the key is absent (first visit), falls back to sampleLeads.
+  //   - Every setLeads call automatically writes the new array to localStorage.
+  const [leads, setLeads] = useLocalStorage('startup-crm-leads', sampleLeads);
 
   /**
    * Adds a new lead to the CRM.

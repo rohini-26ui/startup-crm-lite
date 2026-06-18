@@ -10,11 +10,11 @@ const NotFound = () => {
     // Container div with flexbox to center content vertically and horizontally
     <div className="flex flex-col items-center justify-center min-h-screen p-8 text-center">
       {/* Large 404 heading */}
-      <h1 className="text-6xl font-bold text-gray-800 mb-4">404</h1>
+      <h1 className="text-6xl font-bold text-gray-800 dark:text-white mb-4">404</h1>
       {/* Subheading explaining the error */}
-      <h2 className="text-2xl font-semibold text-gray-600 mb-6">Page Not Found</h2>
+      <h2 className="text-2xl font-semibold text-gray-600 dark:text-gray-300 mb-6">Page Not Found</h2>
       {/* Informational text */}
-      <p className="text-gray-500 mb-8">The page you are looking for doesn't exist or has been moved.</p>
+      <p className="text-gray-500 dark:text-gray-400 mb-8">The page you are looking for doesn't exist or has been moved.</p>
       {/* Link to navigate back to the dashboard (home) */}
       <Link 
         to="/" 

@@ -1,43 +1,39 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useEffect } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 export const ThemeContext = createContext(null);
 
 /**
  * ThemeProvider component manages the application's light/dark theme state.
- * It synchronizes the state with localStorage and modifies the root document class accordingly.
+ * The preference is persisted to localStorage under 'startup-crm-theme' so that
+ * the user's choice is remembered across sessions and page refreshes.
+ * It also synchronises the preference with the root document class so that
+ * CSS dark-mode selectors work correctly.
  * 
  * @param {Object} props - The component props.
  * @param {React.ReactNode} props.children - Child components to be wrapped.
  * @returns {JSX.Element} The rendered Provider wrapper.
  */
 export const ThemeProvider = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    try {
-      const stored = localStorage.getItem('isDarkMode');
-      return stored ? JSON.parse(stored) : false;
-    } catch (error) {
-      console.error('Failed to parse theme from localStorage:', error);
-      return false;
-    }
-  });
+  // useLocalStorage reads from 'startup-crm-theme' on first render.
+  // Defaults to `false` (light mode) if no stored preference is found.
+  // Every setIsDarkMode call automatically persists the new value to localStorage.
+  const [isDarkMode, setIsDarkMode] = useLocalStorage('startup-crm-theme', false);
 
-  // Apply or remove the 'dark' class to document.documentElement based on isDarkMode state
+  // Apply or remove the 'dark' class on the document root whenever isDarkMode changes.
+  // This drives all CSS dark-mode selectors (e.g. `.dark .some-class { ... }`).
   useEffect(() => {
-    try {
-      if (isDarkMode) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-      localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
-    } catch (error) {
-      console.error('Failed to sync theme class/storage:', error);
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
   }, [isDarkMode]);
 
   /**
    * Toggles the theme between light and dark modes.
+   * The new value is automatically saved to localStorage via useLocalStorage.
    * 
    * @returns {void}
    */

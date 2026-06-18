@@ -86,8 +86,8 @@ const Leads = () => {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Leads</h1>
-          <p className="text-slate-500 text-sm mt-1">View, search, filter, and manage all your sales prospects.</p>
+          <h1 className="text-2xl font-bold text-slate-800 dark:text-white">Leads</h1>
+          <p className="text-slate-500 dark:text-gray-400 text-sm mt-1">View, search, filter, and manage all your sales prospects.</p>
         </div>
 
         <button
@@ -100,7 +100,7 @@ const Leads = () => {
       </div>
 
       {/* Search and Filters Toolbar */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white dark:bg-gray-800 p-4 rounded-xl border border-slate-200 dark:border-gray-700 shadow-sm transition-colors duration-200">
         <SearchBar value={searchQuery} onChange={setSearchQuery} />
         <FilterBar activeFilter={activeFilter} onFilterChange={setActiveFilter} leads={leads} />
       </div>
@@ -122,16 +122,16 @@ const Leads = () => {
 
       {/* Add / Edit Lead Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-2xl my-8 relative">
+        <div className="fixed inset-0 z-50 flex md:items-center justify-center bg-slate-900/40 dark:bg-gray-900/60 backdrop-blur-sm md:p-4 overflow-y-auto">
+          <div className="bg-white dark:bg-gray-800 md:rounded-xl shadow-2xl border-0 md:border border-slate-200 dark:border-gray-700 w-full h-full md:h-auto max-w-none md:max-w-2xl md:my-8 relative transition-colors duration-200 flex flex-col">
             {/* Modal Header */}
-            <div className="sticky top-0 bg-white flex justify-between items-center p-6 border-b border-slate-200 rounded-t-xl z-10">
-              <h2 className="text-xl font-semibold text-slate-800">
+            <div className="sticky top-0 bg-white dark:bg-gray-800 flex justify-between items-center p-6 border-b border-slate-200 dark:border-gray-700 md:rounded-t-xl z-10 shrink-0">
+              <h2 className="text-xl font-semibold text-slate-800 dark:text-white">
                 {selectedLead ? 'Edit Lead' : 'Create New Lead'}
               </h2>
               <button
                 onClick={handleCloseModal}
-                className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors"
+                className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-gray-200 hover:bg-slate-100 dark:hover:bg-gray-700 rounded-full transition-colors"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />

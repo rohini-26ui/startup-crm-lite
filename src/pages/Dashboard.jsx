@@ -56,8 +56,8 @@ const Dashboard = () => {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Dashboard Overview</h1>
-          <p className="text-slate-500 text-sm mt-1">Welcome back! Here's what's happening with your startup CRM today.</p>
+          <h1 className="text-2xl font-bold text-slate-800 dark:text-white">Dashboard Overview</h1>
+          <p className="text-slate-500 dark:text-gray-400 text-sm mt-1">Welcome back! Here's what's happening with your startup CRM today.</p>
         </div>
       </div>
 
