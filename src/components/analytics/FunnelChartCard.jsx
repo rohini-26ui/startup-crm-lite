@@ -2,6 +2,17 @@ import React, { memo, useState, useEffect } from 'react';
 import { Filter, ChevronRight, TrendingDown } from 'lucide-react';
 import { ChartCard } from './PieChartCard';
 
+const STAGE_COLORS = {
+  New: '#94A3B8',
+  Contacted: '#2563EB',
+  'Meeting Scheduled': '#F59E0B',
+  Meeting: '#F59E0B',
+  'Proposal Sent': '#7C3AED',
+  Proposal: '#7C3AED',
+  Won: '#22C55E',
+  Lost: '#EF4444',
+};
+
 const FunnelChartCard = memo(({ data }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -44,9 +55,9 @@ const FunnelChartCard = memo(({ data }) => {
 
   return (
     <ChartCard title="Sales Funnel" subtitle="Lead progression through pipeline stages" icon={Filter}>
-      <div className="flex flex-col md:flex-row gap-8 items-center min-h-[380px]">
+      <div className="flex justify-center items-center min-h-[380px] py-4">
         {/* SVG Funnel Visualizer */}
-        <div className="w-full md:w-3/5 flex justify-center relative">
+        <div className="w-full max-w-md flex justify-center relative">
           <svg
             width="100%"
             height={height}
@@ -133,55 +144,30 @@ const FunnelChartCard = memo(({ data }) => {
                     style={{ transition: 'all 0.3s ease' }}
                   />
 
+                  {/* Text inside the funnel layer */}
+                  <text
+                    x={cx}
+                    y={y1 + layerHeight / 2}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="pointer-events-none"
+                    style={{ 
+                      textShadow: '0px 0px 6px rgba(255,255,255,0.9), 0px 1px 3px rgba(255,255,255,0.9)', 
+                      transition: 'all 0.3s ease' 
+                    }}
+                  >
+                    <tspan x={cx} dy="-0.2em" fontSize="14" fontWeight="900" fill="#4169E1">
+                      {item.stage}
+                    </tspan>
+                    <tspan x={cx} dy="1.4em" fontSize="12" fontWeight="800" fill="#4169E1">
+                      {item.count} Leads
+                      {idx > 0 && ` • ${item.convRate}%`}
+                    </tspan>
+                  </text>
                 </g>
               );
             })}
           </svg>
-        </div>
-
-        {/* Detailed Metrics Panel */}
-        <div
-          className="w-full md:w-2/5 flex flex-col justify-start md:mt-0 mt-6"
-          style={isDesktop ? { paddingTop: `${yStart}px`, gap: `${gap}px` } : { gap: '12px' }}
-        >
-          {data.map((item, idx) => {
-            const isHovered = hoveredIndex === idx;
-            return (
-              <div
-                key={item.stage}
-                onMouseEnter={() => setHoveredIndex(idx)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                className={`p-3 rounded-xl border flex flex-col justify-center transition-all duration-300 ${
-                  isHovered
-                    ? 'bg-slate-50 border-slate-300 shadow-sm translate-x-1'
-                    : 'bg-white border-slate-200'
-                }`}
-                style={isDesktop ? { height: `${layerHeight}px` } : {}}
-              >
-                <div className="flex items-center justify-between w-full">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <div
-                      className="w-2.5 h-2.5 rounded-full shrink-0"
-                      style={{ backgroundColor: isHovered ? '#71A0B1' : '#88B2C4' }}
-                    />
-                    <span className="text-xs font-bold text-slate-700 truncate">{item.stage}</span>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-xs font-black text-slate-800">{item.count} Leads</span>
-                    {idx > 0 ? (
-                      <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
-                        {item.convRate}%
-                      </span>
-                    ) : (
-                      <span className="text-[10px] font-bold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">
-                        100%
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
         </div>
       </div>
     </ChartCard>
