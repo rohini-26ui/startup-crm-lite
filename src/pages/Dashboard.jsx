@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Users, TrendingUp, DollarSign, Activity } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useLeads } from '../context/LeadContext';
 
 import StatsCard from '../components/dashboard/StatsCard';
 import PipelineOverview from '../components/dashboard/PipelineOverview';
@@ -16,18 +17,7 @@ import AddLeadModal from '../components/dashboard/AddLeadModal';
  * @returns {JSX.Element} The rendered Dashboard page.
  */
 const Dashboard = () => {
-  // Initial sample leads data
-  const initialLeads = [
-    { id: '1', name: 'Alice Freeman', email: 'alice@technova.com', company: 'TechNova', value: 15000, status: 'New', dateAdded: '2026-06-16T09:00:00Z' },
-    { id: '2', name: 'Bob Smith', email: 'bob@buildright.inc', company: 'BuildRight Inc.', value: 45000, status: 'Contacted', dateAdded: '2026-06-15T14:30:00Z' },
-    { id: '3', name: 'Charlie Davis', email: 'charlie@nextgen.co', company: 'NextGen Solutions', value: 120000, status: 'Negotiation', dateAdded: '2026-06-14T10:15:00Z' },
-    { id: '4', name: 'Diana Prince', email: 'diana@themyscira.corp', company: 'Themyscira Corp', value: 85000, status: 'Closed', dateAdded: '2026-06-13T16:45:00Z' },
-    { id: '5', name: 'Evan Wright', email: 'evan@wright.co', company: 'Wright & Co.', value: 12000, status: 'Lost', dateAdded: '2026-06-12T11:20:00Z' },
-    { id: '6', name: 'Fiona Gallagher', email: 'fiona@shameless.inc', company: 'Shameless Inc.', value: 25000, status: 'New', dateAdded: '2026-06-11T08:00:00Z' },
-  ];
-
-  // State to manage leads list and modal visibility
-  const [leads, setLeads] = useState(initialLeads);
+  const { leads, addLead } = useLeads();
   const [isAddLeadModalOpen, setIsAddLeadModalOpen] = useState(false);
 
   // Dynamic stats calculation based on current leads state
@@ -42,15 +32,14 @@ const Dashboard = () => {
     { title: 'Total Leads', value: totalLeads.toString(), icon: Users, change: 12.5, color: 'blue' },
     { title: 'Conversion Rate', value: '18.2%', icon: TrendingUp, change: 3.1, color: 'green' },
     { title: 'Total Value', value: formattedTotalValue, icon: DollarSign, change: -2.4, color: 'red' },
-    { title: 'Active Deals', value: leads.filter(l => l.status !== 'Closed' && l.status !== 'Lost').length.toString(), icon: Activity, change: 8.4, color: 'purple' },
+    { title: 'Active Deals', value: leads.filter(l => l.status !== 'Won' && l.status !== 'Lost').length.toString(), icon: Activity, change: 8.4, color: 'purple' },
   ];
 
   // Pipeline Target
   const pipelineTarget = 15; // Increased target to see progress better
 
-  const handleAddLead = (newLead) => {
-    // Add new lead to the beginning of the list to reflect in 'Recent' immediately
-    setLeads([newLead, ...leads]);
+  const handleAddLead = (newLeadData) => {
+    addLead(newLeadData);
     toast.success('New lead added successfully!');
   };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import StatusBadge from '../leads/StatusBadge';
 
 /**
  * @typedef {Object} Lead
@@ -26,24 +27,7 @@ const RecentLeads = ({ leads }) => {
     .sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded))
     .slice(0, 5);
 
-  // Helper function to render the appropriate status badge
-  const renderStatusBadge = (status) => {
-    let baseClasses = "px-2.5 py-0.5 rounded-full text-xs font-medium";
-    switch (status) {
-      case 'New':
-        return <span className={`${baseClasses} bg-blue-100 text-blue-700`}>{status}</span>;
-      case 'Contacted':
-        return <span className={`${baseClasses} bg-amber-100 text-amber-700`}>{status}</span>;
-      case 'Negotiation':
-        return <span className={`${baseClasses} bg-purple-100 text-purple-700`}>{status}</span>;
-      case 'Closed':
-        return <span className={`${baseClasses} bg-green-100 text-green-700`}>{status}</span>;
-      case 'Lost':
-        return <span className={`${baseClasses} bg-red-100 text-red-700`}>{status}</span>;
-      default:
-        return <span className={`${baseClasses} bg-slate-100 text-slate-700`}>{status}</span>;
-    }
-  };
+  // Using the imported StatusBadge component for rendering lead status badges
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
@@ -72,7 +56,7 @@ const RecentLeads = ({ leads }) => {
                   <td className="px-6 py-4 font-medium text-slate-700">
                     {lead.value ? `$${lead.value.toLocaleString()}` : '-'}
                   </td>
-                  <td className="px-6 py-4">{renderStatusBadge(lead.status)}</td>
+                  <td className="px-6 py-4"><StatusBadge status={lead.status} /></td>
                   <td className="px-6 py-4 text-slate-500">
                     {new Date(lead.dateAdded).toLocaleDateString()}
                   </td>

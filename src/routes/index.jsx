@@ -6,7 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 // Lazy load the page components to improve initial load performance
 // React.lazy takes a function that must call a dynamic import()
 const Dashboard = lazy(() => import('../pages/Dashboard'));
-const LeadManagement = lazy(() => import('../pages/LeadManagement'));
+const Leads = lazy(() => import('../pages/Leads'));
 const Analytics = lazy(() => import('../pages/Analytics'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
@@ -28,8 +28,8 @@ const AppRoutes = () => {
         {/* Define the index route (path="/") which renders the Dashboard component */}
         <Route path="/" element={<Dashboard />} />
         
-        {/* Define the route for Lead Management at path="/leads" */}
-        <Route path="/leads" element={<LeadManagement />} />
+        {/* Define the route for Leads page at path="/leads" */}
+        <Route path="/leads" element={<Leads />} />
         
         {/* Define the route for Analytics at path="/analytics" */}
         <Route path="/analytics" element={<Analytics />} />
@@ -43,3 +43,4 @@ const AppRoutes = () => {
 
 // Export the routing component to be used in App.jsx
 export default AppRoutes;
+

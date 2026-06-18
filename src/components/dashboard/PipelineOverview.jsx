@@ -29,11 +29,12 @@ const PipelineOverview = ({ leads, target }) => {
 
   // Define the stages, their labels, and corresponding Tailwind colors
   const stages = [
-    { key: 'New', label: 'New', color: 'bg-blue-600' }, // Primary
-    { key: 'Contacted', label: 'Contacted', color: 'bg-amber-500' }, // Warning
-    { key: 'Negotiation', label: 'Negotiation', color: 'bg-purple-500' }, 
-    { key: 'Closed', label: 'Won', color: 'bg-green-500' }, // Success
-    { key: 'Lost', label: 'Lost', color: 'bg-red-500' }, // Danger
+    { key: 'New', label: 'New', color: 'bg-blue-600' },
+    { key: 'Contacted', label: 'Contacted', color: 'bg-amber-500' },
+    { key: 'Meeting Scheduled', label: 'Meeting', color: 'bg-purple-500' },
+    { key: 'Proposal Sent', label: 'Proposal', color: 'bg-indigo-500' },
+    { key: 'Won', label: 'Won', color: 'bg-green-500' },
+    { key: 'Lost', label: 'Lost', color: 'bg-red-500' },
   ];
 
   return (
@@ -86,7 +87,7 @@ const PipelineOverview = ({ leads, target }) => {
       </div>
 
       {/* Legend */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-auto">
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mt-auto">
         {stages.map((stage) => {
           const count = statusCounts[stage.key] || 0;
           return (

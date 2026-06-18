@@ -34,18 +34,18 @@ const AddLeadModal = ({ isOpen, onClose, onAdd }) => {
     e.preventDefault();
     if (!formData.name || !formData.company || !formData.email) return;
 
-    // Create new lead object
-    const newLead = {
-      id: Date.now().toString(),
+    // Create new lead object with clean fields, letting the context handle ID and timestamps
+    const newLeadData = {
       name: formData.name,
       email: formData.email,
       company: formData.company,
       value: Number(formData.value) || 0, // ensure value is a number
       status: formData.status,
-      dateAdded: new Date().toISOString(),
+      source: 'Other', // default source for quick dashboard add
+      phone: '' // default empty phone
     };
 
-    onAdd(newLead);
+    onAdd(newLeadData);
     setFormData({ name: '', email: '', company: '', value: '', status: 'New' }); // reset form
     onClose();
   };
@@ -144,8 +144,9 @@ const AddLeadModal = ({ isOpen, onClose, onAdd }) => {
             >
               <option value="New">New</option>
               <option value="Contacted">Contacted</option>
-              <option value="Negotiation">Negotiation</option>
-              <option value="Closed">Closed</option>
+              <option value="Meeting Scheduled">Meeting Scheduled</option>
+              <option value="Proposal Sent">Proposal Sent</option>
+              <option value="Won">Won</option>
               <option value="Lost">Lost</option>
             </select>
           </div>
