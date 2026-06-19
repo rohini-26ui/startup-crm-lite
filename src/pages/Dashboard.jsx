@@ -44,6 +44,37 @@ const Dashboard = () => {
   };
 
   const handleExportData = () => {
+    if (!leads || leads.length === 0) {
+      toast.error('No leads to export.');
+      return;
+    }
+
+    const headers = ['ID', 'Name', 'Company', 'Email', 'Phone', 'Status', 'Source', 'Value', 'Created At'];
+    const keys = ['id', 'name', 'company', 'email', 'phone', 'status', 'source', 'value', 'createdAt'];
+
+    const csvContent = [
+      headers.join(','),
+      ...leads.map(lead =>
+        keys.map(key => {
+          let val = lead[key] === null || lead[key] === undefined ? '' : String(lead[key]);
+          if (val.includes(',') || val.includes('"') || val.includes('\n')) {
+            val = `"${val.replace(/"/g, '""')}"`;
+          }
+          return val;
+        }).join(',')
+      )
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `startup_crm_leads_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
     // Show a success toast notification
     toast.success('Data exported successfully to your downloads folder.', {
       duration: 3000,
