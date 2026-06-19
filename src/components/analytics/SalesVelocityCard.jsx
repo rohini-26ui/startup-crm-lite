@@ -4,9 +4,9 @@ import { ChartCard } from './PieChartCard';
 import { formatINR } from '../../utils/analyticsHelpers';
 
 const MetricRow = ({ label, value }) => (
-  <div className="flex items-center justify-between py-2 border-b border-slate-50 last:border-0">
-    <span className="text-xs text-slate-500">{label}</span>
-    <span className="text-xs font-semibold text-slate-700">{value}</span>
+  <div className="flex items-center justify-between py-2 border-b border-slate-50 dark:border-slate-700 last:border-0">
+    <span className="text-xs text-slate-500 dark:text-slate-400">{label}</span>
+    <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">{value}</span>
   </div>
 );
 
@@ -33,12 +33,12 @@ const SalesVelocityCard = memo(({ data }) => {
     >
       {/* Hero metric */}
       <div className="flex items-end gap-3 mb-6">
-        <p className="text-3xl font-bold text-slate-900 tracking-tight">{velocityStr}</p>
+        <p className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{velocityStr}</p>
         <TrendIcon className={`w-5 h-5 mb-1 ${trendColor}`} />
       </div>
 
       {/* Formula breakdown */}
-      <div className="bg-slate-50 rounded-xl px-4 py-2 space-y-1 mb-4">
+      <div className="bg-slate-50 dark:bg-slate-800 rounded-xl px-4 py-2 space-y-1 mb-4">
         <MetricRow label="Active Opportunities"  value={opportunities} />
         <MetricRow label="Win Rate"              value={`${winRate}%`} />
         <MetricRow label="Avg Deal Size"         value={formatINR(avgDeal)} />
@@ -46,17 +46,17 @@ const SalesVelocityCard = memo(({ data }) => {
       </div>
 
       {/* Formula legend */}
-      <p className="text-[10px] text-slate-400 text-center leading-relaxed mb-4">
+      <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center leading-relaxed mb-4">
         (Opportunities × Win Rate × Avg Deal) ÷ Sales Cycle
       </p>
 
       {/* Gauge bar */}
       <div className="mt-4">
-        <div className="flex justify-between text-[10px] text-slate-400 mb-2">
+        <div className="flex justify-between text-[10px] text-slate-400 dark:text-slate-500 mb-2">
           <span>₹0</span>
           <span>₹10K/day</span>
         </div>
-        <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
+        <div className="h-3 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-blue-400 to-blue-600 rounded-full transition-all duration-700"
             style={{ width: `${Math.min(100, (velocity / 10000) * 100)}%` }}

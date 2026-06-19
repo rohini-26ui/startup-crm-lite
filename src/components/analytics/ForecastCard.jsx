@@ -35,20 +35,20 @@ const ForecastCard = memo(({ data }) => {
     >
       {/* Predicted revenue hero */}
       <div className="flex items-center gap-3 mb-2">
-        <p className="text-3xl font-bold text-slate-900 tracking-tight">
+        <p className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
           {formatINR(predicted)}
         </p>
         <Icon className={`w-5 h-5 ${color}`} />
       </div>
-      <p className="text-xs text-slate-400 mb-6">Predicted Revenue — Next Month</p>
+      <p className="text-xs text-slate-400 dark:text-slate-300 mb-6">Predicted Revenue — Next Month</p>
 
       {/* Confidence meter */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-xs text-slate-500">Confidence Score</span>
-          <span className="text-xs font-semibold text-slate-700">{confidence}%</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400">Confidence Score</span>
+          <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">{confidence}%</span>
         </div>
-        <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
+        <div className="h-3 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
           <div
             className={`h-full rounded-full transition-all duration-700 ${
               confidence >= 70 ? 'bg-emerald-400' : confidence >= 45 ? 'bg-amber-400' : 'bg-red-400'
@@ -65,8 +65,8 @@ const ForecastCard = memo(({ data }) => {
 
       {/* Mini sparkline of the last 6 months */}
       {history.length >= 2 && (
-        <div className="mt-5 pt-4 border-t border-slate-100">
-          <p className="text-[10px] text-slate-400 mb-3">6-Month Revenue History</p>
+        <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-700">
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 mb-3">6-Month Revenue History</p>
           <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-12" preserveAspectRatio="none">
             {/* Area fill */}
             <defs>
