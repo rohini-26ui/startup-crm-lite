@@ -8,6 +8,7 @@ const STAGE_COLORS = [
   '#d98a2c', // Meeting Scheduled
   '#3baca3', // Proposal Sent
   '#47b36a', // Won
+  '#EF4444', // Lost
 ];
 
 const FunnelChartCard = memo(({ data }) => {
@@ -117,19 +118,19 @@ const FunnelChartCard = memo(({ data }) => {
 
                 {/* Right side stats */}
                 <g transform={`translate(400, ${y1 + sectionHeight / 2})`}>
+                  <text y={idx > 0 ? -16 : 0} className="fill-slate-700 dark:fill-slate-200" fontSize="11" fontWeight="600">
+                    {item.count} Leads
+                  </text>
                   {idx > 0 && (
-                    <text y="-22" className="fill-slate-700 dark:fill-slate-200" fontSize="11" fontWeight="600">
-                      {item.count} Leads
-                    </text>
-                  )}
-                  {idx > 0 && (
-                    <text y="-8" className="fill-slate-500 dark:fill-slate-400" fontSize="11" fontWeight="500">
+                    <text y="0" className="fill-slate-500 dark:fill-slate-400" fontSize="11" fontWeight="500">
                       {item.convRate}% Conversion Rate
                     </text>
                   )}
-                  <text y={idx > 0 ? 8 : 4} className="fill-slate-500 dark:fill-slate-400" fontSize="11" fontWeight="500">
-                    Drop off: {item.dropOff}%
-                  </text>
+                  {idx > 0 && (
+                    <text y={16} className="fill-slate-500 dark:fill-slate-400" fontSize="11" fontWeight="500">
+                      Drop off: {item.dropOff}%
+                    </text>
+                  )}
                 </g>
               </g>
             );

@@ -93,13 +93,12 @@ export function getPreviousLeads(leads, range = '30d') {
 // ─── Public: Status & Funnel ───────────────────────────────────────────────────
 
 /**
- * Distribution of leads by pipeline status.
- *
- * @param {Object[]} leads
- * @returns {{ name: string, value: number }[]}
+ * Shared utility to calculate status counts for both Lead Status Distribution and Sales Funnel.
+ * 
+ * @param {Object[]} leads 
+ * @returns {Record<string, number>}
  */
-export function getStatusDistribution(leads) {
-  if (!Array.isArray(leads)) return [];
+export function getLeadStatusCounts(leads) {
   const counts = {
     'New': 0,
     'Contacted': 0,
@@ -108,6 +107,8 @@ export function getStatusDistribution(leads) {
     'Won': 0,
     'Lost': 0
   };
+  if (!Array.isArray(leads)) return counts;
+
   leads.forEach((l) => {
     let status = l.status;
     if (status === 'Meeting Scheduled') status = 'Meeting';
@@ -116,6 +117,17 @@ export function getStatusDistribution(leads) {
       counts[status]++;
     }
   });
+  return counts;
+}
+
+/**
+ * Distribution of leads by pipeline status.
+ *
+ * @param {Object[]} leads
+ * @returns {{ name: string, value: number }[]}
+ */
+export function getStatusDistribution(leads) {
+  const counts = getLeadStatusCounts(leads);
   return Object.entries(counts).map(([name, value]) => ({ name, value }));
 }
 
@@ -127,47 +139,19 @@ export function getStatusDistribution(leads) {
  * @returns {{ stage: string, count: number, convRate: number, dropOff: number }[]}
  */
 export function getFunnelData(leads) {
-  if (!leads?.length) return [];
+  const counts = getLeadStatusCounts(leads);
+  const STAGES = ['New', 'Contacted', 'Meeting', 'Proposal', 'Won', 'Lost'];
 
-  const STAGES = ['New', 'Contacted', 'Meeting', 'Proposal', 'Won'];
-  const counts = STAGES.map((stage) => ({
-    stage,
-    count: 0,
-  }));
-
-  leads.forEach((l) => {
-    let status = l.status;
-    if (status === 'Meeting Scheduled') status = 'Meeting';
-    if (status === 'Proposal Sent') status = 'Proposal';
-
-    if (status === 'New') {
-      counts[0].count++;
-    } else if (status === 'Contacted') {
-      counts[0].count++;
-      counts[1].count++;
-    } else if (status === 'Meeting') {
-      counts[0].count++;
-      counts[1].count++;
-      counts[2].count++;
-    } else if (status === 'Proposal') {
-      counts[0].count++;
-      counts[1].count++;
-      counts[2].count++;
-      counts[3].count++;
-    } else if (status === 'Won') {
-      counts[0].count++;
-      counts[1].count++;
-      counts[2].count++;
-      counts[3].count++;
-      counts[4].count++;
-    }
-    // 'Lost' is excluded from progress stages
-  });
-
-  return counts.map((item, idx) => {
-    const prev = idx === 0 ? item.count : counts[idx - 1].count;
-    const convRate = prev > 0 ? Math.round((item.count / prev) * 100) : 0;
-    return { ...item, convRate, dropOff: 100 - convRate };
+  return STAGES.map((stage, idx) => {
+    const count = counts[stage];
+    const prevCount = idx === 0 ? 0 : counts[STAGES[idx - 1]];
+    const convRate = prevCount > 0 ? Math.round((count / prevCount) * 100) : 0;
+    return { 
+      stage, 
+      count, 
+      convRate, 
+      dropOff: prevCount > 0 ? 100 - convRate : 0 
+    };
   });
 }
 
