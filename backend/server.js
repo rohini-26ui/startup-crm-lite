@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
 const allowedOrigins = [process.env.FRONTEND_URL, 'https://your-app.vercel.app', 'http://localhost:5174', 'http://localhost:5173'];
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost:')) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -73,7 +73,7 @@ const generalLimiter = rateLimit({
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // Limit each IP to 10 requests per windowMs for auth routes
+  max: process.env.NODE_ENV === 'production' ? 10 : 100, // Limit each IP to 10 requests (100 in dev) per windowMs for auth routes
   message: 'Too many auth attempts.',
 });
 
