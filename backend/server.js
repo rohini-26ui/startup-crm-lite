@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Enable CORS (Cross-Origin Resource Sharing)
-const allowedOrigins = [process.env.FRONTEND_URL, 'https://your-app.vercel.app', 'http://localhost:5174', 'http://localhost:5173'];
+const allowedOrigins = [process.env.FRONTEND_URL, 'https://startup-crm-lite-rho.vercel.app', 'http://localhost:5174', 'http://localhost:5173'];
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost:')) {
