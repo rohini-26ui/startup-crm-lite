@@ -1,28 +1,139 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme{
-    --font-roboto: 'Roboto', sans-serif;
-    --color-primary: #2563EB;
-    --color-success: #22C55E;
-    --color-warning: #F59E0B;
-    --color-danger: #EF4444;
+/* Brand Palette Design Tokens */
+:root {
+  /* Light Theme */
+  --brand-bg: #F3FAFC;
+  --brand-surface: #E7F4F7;
+  --brand-primary: #007C91;
+  --brand-primary-hover: #006678;
+  --brand-secondary: #3AA5B8;
+  --brand-accent: #FF8C61;
+  --brand-text: #18333D;
+  --brand-text-secondary: #4A6B76;
+  --brand-border: #C9E1E7;
+  --brand-text-on-primary: #FFFFFF;
+}
 
-    --color-background: #F8FAFC;
-    --color-card: #FFFFFF;
+.dark {
+  /* Dark Theme */
+  --brand-bg: #081B20;
+  --brand-surface: #102A31;
+  --brand-primary: #57D4E6;
+  --brand-primary-hover: #3AA5B8;
+  --brand-secondary: #83E4F0;
+  --brand-accent: #FFB089;
+  --brand-text: #EFFCFF;
+  --brand-text-secondary: #A1BFC7;
+  --brand-border: #234149;
+  --brand-text-on-primary: #081B20;
+}
 
-    --color-text-dark: #0F172A;
-    --color-text-gray: #64748B;
+@theme {
+  --font-roboto: 'Roboto', sans-serif;
+  
+  /* Overrides for Tailwind Default Colors Used in the App */
+
+  /* Backgrounds & Surfaces mapped to Gray/Slate */
+  --color-slate-50: var(--brand-bg);
+  --color-slate-100: var(--brand-bg);
+  --color-slate-200: var(--brand-border);
+  --color-slate-300: var(--brand-border);
+  --color-slate-400: var(--brand-text-secondary);
+  --color-slate-500: var(--brand-text-secondary);
+  --color-slate-600: var(--brand-text-secondary);
+  --color-slate-700: var(--brand-border);
+  --color-slate-800: var(--brand-text);
+  --color-slate-900: var(--brand-bg);
+  --color-slate-950: var(--brand-bg);
+
+  --color-gray-50: var(--brand-bg);
+  --color-gray-100: var(--brand-surface);
+  --color-gray-200: var(--brand-border);
+  --color-gray-300: var(--brand-border);
+  --color-gray-400: var(--brand-text-secondary);
+  --color-gray-500: var(--brand-text-secondary);
+  --color-gray-600: var(--brand-border);
+  --color-gray-700: var(--brand-border);
+  --color-gray-800: var(--brand-surface);
+  --color-gray-900: var(--brand-bg);
+  
+  /* Primary mapped to Blue */
+  --color-blue-50: var(--brand-surface);
+  --color-blue-100: var(--brand-border);
+  --color-blue-200: var(--brand-secondary);
+  --color-blue-300: var(--brand-primary);
+  --color-blue-400: var(--brand-primary);
+  --color-blue-500: var(--brand-secondary);
+  --color-blue-600: var(--brand-primary);
+  --color-blue-700: var(--brand-primary-hover);
+  --color-blue-800: var(--brand-primary-hover);
+  --color-blue-900: var(--brand-surface);
+
+  /* Map Amber to Accent */
+  --color-amber-100: #FFEFE8;
+  --color-amber-400: var(--brand-accent); /* Dark */
+  --color-amber-500: var(--brand-accent); /* Light */
+  --color-amber-900: #4a2010;
+
+  /* Map Purple to Secondary */
+  --color-purple-100: #E6F3F5;
+  --color-purple-400: var(--brand-secondary); /* Dark */
+  --color-purple-600: var(--brand-secondary); /* Light */
+  --color-purple-900: #0d292e;
+}
+
+/* Base Overrides for strict design token mapping */
+
+/* Ensure white backgrounds map to surface */
+.bg-white {
+  background-color: var(--brand-surface) !important;
+}
+
+/* Ensure white text maps to brand text, UNLESS it's on a primary background */
+.text-white {
+  color: var(--brand-text) !important;
+}
+.dark .text-white {
+  color: var(--brand-text) !important;
+}
+
+/* Text on primary buttons (bg-blue-600) needs to be high contrast */
+.bg-blue-600.text-white, 
+.bg-blue-500.text-white,
+button.bg-blue-600 .text-white,
+a.bg-blue-600 .text-white {
+  color: var(--brand-text-on-primary) !important;
+}
+
+/* Fix text colors inside buttons or specific active links if needed */
+.text-white.bg-blue-700 {
+  color: var(--brand-text-on-primary) !important;
+}
+
+/* Ensure dark mode buttons using bg-blue-600 correctly adapt to Dark Primary */
+.dark .bg-blue-600, .dark .bg-blue-500 {
+  background-color: var(--brand-primary) !important;
+  color: var(--brand-text-on-primary) !important;
+}
+.dark .hover\:bg-blue-700:hover {
+  background-color: var(--brand-primary-hover) !important;
+}
+
+/* Specific fix for text inside primary buttons in dark mode */
+.dark .bg-blue-600 .text-white,
+.dark .bg-blue-600.text-white,
+.dark .bg-blue-500 .text-white,
+.dark .bg-blue-500.text-white {
+  color: var(--brand-text-on-primary) !important;
 }
 
 /* Smooth theme transition on the root */
-html {
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-body {
-  transition: background-color 0.2s ease, color 0.2s ease;
+html, body {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  background-color: var(--brand-bg);
+  color: var(--brand-text);
 }
