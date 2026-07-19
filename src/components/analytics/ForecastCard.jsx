@@ -56,7 +56,7 @@ const ForecastCard = memo(({ data }) => {
             style={{ width: `${confidence}%` }}
           />
         </div>
-        <p className="text-[10px] text-slate-400 mt-2">
+        <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-2">
           {confidence >= 70 ? 'High confidence — consistent revenue data'
            : confidence >= 45 ? 'Moderate — add more Won deals to improve'
            : 'Low — insufficient historical data'}

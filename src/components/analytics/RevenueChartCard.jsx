@@ -16,8 +16,8 @@ import { formatINR } from '../../utils/analyticsHelpers';
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white border border-slate-200 rounded-xl shadow-lg px-4 py-3 text-sm">
-      <p className="font-semibold text-slate-700 mb-1">{label} Revenue</p>
+    <div className="bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl shadow-lg px-4 py-3 text-sm">
+      <p className="font-semibold text-slate-800 dark:text-white mb-1">{label} Revenue</p>
       <p className="text-emerald-600 font-bold">{formatINR(payload[0].value)}</p>
     </div>
   );

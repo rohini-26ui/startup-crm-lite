@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 // Create an Axios instance with base URL from environment variables
 // Fallback to Railway backend prevents 405 relative path routing errors when env vars are missing on Vercel
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://startup-crm-lite-production-62b7.up.railway.app',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000',
 });
 
 // Request interceptor to automatically add the Authorization header

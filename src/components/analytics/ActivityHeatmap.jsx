@@ -3,14 +3,14 @@ import { Activity } from 'lucide-react';
 import { ChartCard } from './PieChartCard';
 import { HEAT_COLORS } from '../../constants/analyticsColors';
 
-/** Map a count to a heat-intensity colour. */
-const heatColor = (count) => {
-  if (count === 0) return HEAT_COLORS[0];
-  if (count === 1) return HEAT_COLORS[1];
-  if (count === 2) return HEAT_COLORS[2];
-  if (count === 3) return HEAT_COLORS[3];
-  if (count === 4) return HEAT_COLORS[4];
-  return HEAT_COLORS[5];
+/** Map a count to a heat-intensity Tailwind class. */
+const heatClass = (count) => {
+  if (count === 0) return 'bg-slate-100 dark:bg-slate-800';
+  if (count === 1) return 'bg-blue-200 dark:bg-blue-900';
+  if (count === 2) return 'bg-blue-300 dark:bg-blue-800';
+  if (count === 3) return 'bg-blue-400 dark:bg-blue-700';
+  if (count === 4) return 'bg-blue-500 dark:bg-blue-600';
+  return 'bg-blue-700 dark:bg-blue-500';
 };
 
 /** Single heatmap cell (day square). */
@@ -20,8 +20,7 @@ const Cell = memo(({ date, count, label }) => {
   return (
     <div className="relative group" style={{ lineHeight: 0 }}>
       <div
-        className="w-3 h-3 rounded-[2px] cursor-default transition-transform duration-150 group-hover:scale-125"
-        style={{ backgroundColor: heatColor(count) }}
+        className={`w-3 h-3 rounded-[2px] cursor-default transition-transform duration-150 group-hover:scale-125 ${heatClass(count)}`}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         title={`${label}: ${count} lead${count !== 1 ? 's' : ''}`}

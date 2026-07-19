@@ -33,7 +33,7 @@ const GrowthBadge = ({ value }) => {
 const StatCard = memo(({ id, icon: Icon, label, value, growth, accent, sub }) => (
   <div
     id={id}
-    className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all p-5 flex flex-col gap-3"
+    className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all p-5 flex flex-col gap-3"
   >
     <div className="flex items-center justify-between">
       <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${accent}`}>

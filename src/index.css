@@ -37,29 +37,7 @@
   
   /* Overrides for Tailwind Default Colors Used in the App */
 
-  /* Backgrounds & Surfaces mapped to Gray/Slate */
-  --color-slate-50: var(--brand-bg);
-  --color-slate-100: var(--brand-bg);
-  --color-slate-200: var(--brand-border);
-  --color-slate-300: var(--brand-border);
-  --color-slate-400: var(--brand-text-secondary);
-  --color-slate-500: var(--brand-text-secondary);
-  --color-slate-600: var(--brand-text-secondary);
-  --color-slate-700: var(--brand-border);
-  --color-slate-800: var(--brand-text);
-  --color-slate-900: var(--brand-bg);
-  --color-slate-950: var(--brand-bg);
-
-  --color-gray-50: var(--brand-bg);
-  --color-gray-100: var(--brand-surface);
-  --color-gray-200: var(--brand-border);
-  --color-gray-300: var(--brand-border);
-  --color-gray-400: var(--brand-text-secondary);
-  --color-gray-500: var(--brand-text-secondary);
-  --color-gray-600: var(--brand-border);
-  --color-gray-700: var(--brand-border);
-  --color-gray-800: var(--brand-surface);
-  --color-gray-900: var(--brand-bg);
+  /* Backgrounds & Surfaces mapped to Gray/Slate have been removed to restore standard Tailwind grays */
   
   /* Primary mapped to Blue */
   --color-blue-50: var(--brand-surface);
@@ -87,19 +65,6 @@
 }
 
 /* Base Overrides for strict design token mapping */
-
-/* Ensure white backgrounds map to surface */
-.bg-white {
-  background-color: var(--brand-surface) !important;
-}
-
-/* Ensure white text maps to brand text, UNLESS it's on a primary background */
-.text-white {
-  color: var(--brand-text) !important;
-}
-.dark .text-white {
-  color: var(--brand-text) !important;
-}
 
 /* Text on primary buttons (bg-blue-600) needs to be high contrast */
 .bg-blue-600.text-white, 
